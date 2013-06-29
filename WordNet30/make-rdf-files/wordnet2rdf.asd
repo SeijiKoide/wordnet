@@ -29,18 +29,20 @@
 See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/."
   :pathname #+(and :asdf (not :asdf2)) (translate-logical-pathname "MAKE-RDF-FILES:")
             #+(and :asdf :asdf2)       nil
+  :serial t
   :components
-  ((:file "wn20schema")
+  ((:file "package")
+   (:file "wn20schema")
    (:file "wn21schema")
    (:file "wn30schema")
    (:file "utilmacro")
    (:file "Utils")
-   (:file "WordNet"        :depends-on ("utilmacro" "Utils"))
-   (:file "WordNet20"      :depends-on ("utilmacro")); "Utils" "wn20schema"))
-   (:file "WordNet21"      :depends-on ("utilmacro" "WordNet20"))
-   (:file "WordNet30"      :depends-on ("utilmacro" "WordNet20"))
-   (:file "make-rdf-files" :depends-on ("wn20schema" "wn21schema" "wn30schema" "utilmacro" "Utils" "WordNet" 
-                                        "WordNet20" "WordNet21" "WordNet30"))
+   (:file "WordNet");        :depends-on ("utilmacro" "Utils"))
+   (:file "WordNet20");      :depends-on ("utilmacro")); "Utils" "wn20schema"))
+   (:file "WordNet21");      :depends-on ("utilmacro" "WordNet20"))
+   (:file "WordNet30");      :depends-on ("utilmacro" "WordNet20"))
+   (:file "make-rdf-files"); :depends-on ("wn20schema" "wn21schema" "wn30schema" "utilmacro" "Utils" "WordNet" 
+                           ;             "WordNet20" "WordNet21" "WordNet30"))
    )
 )
 

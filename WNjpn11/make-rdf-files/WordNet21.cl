@@ -17,7 +17,7 @@
 (setq *wnhome*
     (or #+:excl (sys:getenv "WNHOME")             ; it is registered in system but commented for 2.1 and 3.0
         #+:sbcl (sb-ext:posix-getenv "WNHOME")
-        #+:mswindows "C:\\WordNet\\WordNet-2.1"
+        #-:unix "C:\\WordNet\\WordNet-2.1"
         #+:unix "/usr/local/wordnet/WordNet-2.1"))
 (setq *wnsearchdir*
       #-:unix (str (or #+:excl (sys:getenv "WNSEARCHDIR")
@@ -71,7 +71,7 @@
   <wn20schema:synsetId>~D</wn20schema:synsetId>
 </wn20schema:AdverbSynset>~%~%")
 
-(setq *noun-synset-description-temp* "<wn20schema:NounSynset rdf:about=\"&wn21instances;~A\"
+(setq *noun-synset-description-temp* "<wn20schema:NounSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 
@@ -232,35 +232,35 @@
   <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
 </wn20schema:AdverbWordSense>~%~%" )
 
-(setq *noun-word-sense-description-temp* "<wn20schema:NounWordSense rdf:about=\"&wn21instances;~A\"
+(setq *noun-word-sense-description-temp* "<wn20schema:NounWordSense rdf:about=\"&~A;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&~A;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
+(setq *verb-word-sense-description-temp* "<wn20schema:VerbWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
   <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
   <wn20schema:inSynset rdf:resource=\"&wn21instances;~A\"/>~%" )
-(setq *verb-word-sense-description-temp* "<wn20schema:VerbWordSense rdf:about=\"&wn21instances;~A\"
+(setq *adjective-word-sense-description-temp* "<wn20schema:AdjectiveWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&wn21instances;~A\"/>~%" )
-(setq *adjective-word-sense-description-temp* "<wn20schema:AdjectiveWordSense rdf:about=\"&wn21instances;~A\"
+  <wn20schema:word rdf:resource=\"&~A;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
+(setq *adjectivesatellite-word-sense-description-temp* "<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&wn21instances;~A\"/>~%" )
-(setq *adjectivesatellite-word-sense-description-temp* "<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&wn21instances;~A\"
+  <wn20schema:word rdf:resource=\"&~A;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
+(setq *adverb-word-sense-description-temp* "<wn20schema:AdverbWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&wn21instances;~A\"/>~%" )
-(setq *adverb-word-sense-description-temp* "<wn20schema:AdverbWordSense rdf:about=\"&wn21instances;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&wn21instances;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&wn21instances;~A\"/>~%" )
+  <wn20schema:word rdf:resource=\"&~A;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
 
 
-(setq *synset-description-template-head* "<rdf:Description rdf:about=\"&wn21instances;~A\">~%")
-(setq *synset-description-template-body* "  <wn20schema:containsWordSense rdf:resource=\"&wn21instances;~A\"/>~%")
+(setq *synset-description-template-head* "<rdf:Description rdf:about=\"&~A;~A\">~%")
+(setq *synset-description-template-body* "  <wn20schema:containsWordSense rdf:resource=\"&~A;~A\"/>~%")
 
 
 (setq *synset-file-path* "WN21:wordnet-synset.rdf")
@@ -290,5 +290,5 @@
 (setq *one-big-rdf-file-verb-path* "WN21:wordnet-verb.rdf")
 (setq *one-big-rdf-file-adjective-path* "WN21:wordnet-adjective.rdf")
 (setq *one-big-rdf-file-adverb-path* "WN21:wordnet-adverb.rdf")
-(setq *one-big-rdf-file-path* (merge-pathnames "wordnet.rdf" (user-homedir-pathname)))
+(setq *one-big-rdf-file-path* (merge-pathnames "wnjpn.rdf" (user-homedir-pathname)))
 ;;; EOF

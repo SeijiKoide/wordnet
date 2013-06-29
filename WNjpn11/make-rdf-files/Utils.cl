@@ -9,14 +9,24 @@
 ;;;; Utils from SWCLOS
 ;;;
 
+;;; from AIMA
 (defun mklist (x)
   "If <x> is a list, return it; otherwise return a singleton list, (<x>)."
   (if (listp x) x (list x)))
+
+(defun mappend (fn &rest lists)
+  "Apply <fn> to respective elements of list(s), and append results."
+  (reduce #'append (apply #'mapcar fn lists) :from-end t))
 
 (defun last2 (lst)
   "Return the last two element of a list."
   (let ((inv (reverse lst)))
     (nreverse (list (car inv) (cadr inv)))))
+
+(defun squash (x)
+  "flattens a nested list <x> and returns a list that includes only atoms."
+  (cond ((consp x) (mappend #'squash x))
+        (t (list x))))
 
 (defun iri-delimiter-p (char)
   (or (char= char #\<)
@@ -67,6 +77,10 @@ given \"wn20\", returns wn20instance package."
 (defvar *wn-package* *package*
   "default-wordnet-version-package,
 This value is set at each version program.")
+
+(defvar *wnja-package* nil
+  "default-japanese-wordnet-version-package,
+This value is set at each Japanese version programl.")
 
 (defun make-word-name (str &optional (package *wn-package*))
   (intern (concatenate 'cl:string "word-" (iri-escape-for-lexform str)) (find-instance-package package)))
@@ -122,7 +136,7 @@ This value is set at each version program.")
 ;;;
 
 (defvar *wnsearchdir* nil
-  "directory where dictionaries are located.
+  "directory where dictionaries of English wordnet are located.
 This value should be set in each version of WordNet.")
 
 (defun pos-index-file (pos)

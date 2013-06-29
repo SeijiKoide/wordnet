@@ -1,0 +1,188 @@
+(in-package :asdf)  
+
+(eval-when (:load-toplevel :execute)
+  (defparameter *wnjpn-directory*
+    (make-pathname :host (pathname-host *load-truename*)
+                   :device (pathname-device *load-truename*)
+                   :directory (pathname-directory *load-truename*)))
+  (setf (logical-pathname-translations "WNjpn")
+    `(("*.*"
+       ,(make-pathname
+         :host (pathname-host *wnjpn-directory*)
+         :device (pathname-device *wnjpn-directory*)
+         :directory (pathname-directory *wnjpn-directory*)
+         :name :wild
+         :type :wild
+         ))))
+) ; end of eval-when
+#-:sbcl
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "iterate" nil)
+    (defparameter *iterate-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "iterate" "WNjpn"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "ITERATE")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *iterate-directory*)
+           :device (pathname-device *iterate-directory*)
+           :directory (pathname-directory *iterate-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "ITERATE:iterate.asd"))
+  )
+#-:sbcl
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "trivial-features" nil)
+    (defparameter *trivial-features-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "trivial-features" "WNjpn"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "TRIVIAL-FEATURES")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *trivial-features-directory*)
+           :device (pathname-device *trivial-features-directory*)
+           :directory (pathname-directory *trivial-features-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "TRIVIAL-FEATURES:trivial-features.asd"))
+  )
+#-:sbcl
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "alexandria" nil)
+    (defparameter *alexandria-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "alexandria" "WNjpn"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "ALEXANDRIA")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *alexandria-directory*)
+           :device (pathname-device *alexandria-directory*)
+           :directory (pathname-directory *alexandria-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "ALEXANDRIA:alexandria.asdf"))
+  )
+#-:sbcl
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "babel" nil)
+    (defparameter *babel-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "babel" "WNjpn"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "BABEL")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *babel-directory*)
+           :device (pathname-device *babel-directory*)
+           :directory (pathname-directory *babel-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "BABEL:babel.asdf"))
+  )
+#-:sbcl
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "cffi" nil)
+    (defparameter *cffi-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "cffi" "WNjpn"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "CFFI")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *cffi-directory*)
+           :device (pathname-device *cffi-directory*)
+           :directory (pathname-directory *cffi-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "CFFI:cffi.asd"))
+  )
+
+(eval-when (:load-toplevel :execute)
+  (unless (asdf:find-system "sqlite" nil)
+    (defparameter *sqlite-directory*
+      (merge-pathnames
+       (make-pathname
+        :directory (substitute "cl-sqlite" "make-rdf-files"
+                               (pathname-directory *wnjpn-directory*)
+                               :test #'string=))
+       *wnjpn-directory*))
+    (setf (logical-pathname-translations "SQLITE")
+      `(("*.*"
+         ,(make-pathname
+           :host (pathname-host *sqlite-directory*)
+           :device (pathname-device *sqlite-directory*)
+           :directory (pathname-directory *sqlite-directory*)
+           :name :wild
+           :type :wild
+           ))))
+    (load "SQLITE:sqlite.asd"))
+)
+
+(defmethod source-file-type ((c cl-source-file) (s module)) "cl")
+
+(defsystem :wnjpn
+    :name "Japanese WordNet System"
+  :author "Seiji Koide <koide@nii.ac.jp>"
+  :maintainer "Seiji Koide <koide@nii.ac.jp>"
+  :version "2.0.0"
+  :licence "MIT"
+  :description "Japanese WordNet (NICT) Subsystem with English WordNet from Princeton."
+  :long-description "This code is written at Natioanl Institute of Informatics in Japan (NII) for LODAC projects."
+  :depends-on ("sqlite")
+  :in-order-to ((compile-op (load-op "sqlite"))
+                (load-op (load-op "sqlite")))
+  :pathname #+(and :asdf (not :asdf2)) (translate-logical-pathname "WNjpn:")
+            #+(and :asdf :asdf2)       nil
+  :serial t
+  :components
+  ((:file "package")
+   (:file "wn20schema")
+   (:file "wn21schema")
+   (:file "wn30schema")
+   (:file "wnja11schema")
+   (:file "utilmacro")
+   (:file "Utils")
+   (:file "wnjpn")
+   (:file "WordNet")
+   (:file "WordNet20")
+   (:file "WordNet21")
+   (:file "WordNet30")
+   (:file "WordNetJa11")
+   (:file "make-rdf-files")
+   )
+)
+
+(in-package #:cl-user)
+
+(format t "~%;;To compile RDFS module, execute these forms:~%~s~%"
+  '(asdf:operate 'asdf:compile-op :wnjpn))
+
+(format t "~%;;To load RDF and RDFS module, execute these forms:~%~s~%"
+  '(asdf:operate 'asdf:load-op :wnjpn))
+
+(format t "~%;; To load a whole system, execute these forms:~%;; ~s~%"
+  '(asdf:load-system :wnjpn))

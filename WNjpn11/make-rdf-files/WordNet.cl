@@ -1,6 +1,6 @@
 ;;;
-;;;; WordNet Dictionary Information Retrieval and OWL Conversion Program
-;;; This program is applied to Allegro8.1, 8.2, 9.0 Modern, sbcl, and WordNet.
+;;;; WordNet Dictionary Retrieval and OWL Conversion Program
+;;; This program is applied to Allegro8.1 Modern and WordNet.
 ;;;
 ;;; WordNet Schema is based on W3C Working Draft 19 June 2006
 ;;; See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/
@@ -80,7 +80,8 @@
 ;;;
 
 (defun offsets-in-index-entry (key pos)
-  "returns synset offsets of <key> for <pos>."
+  "returns synset offsets of <key> for <pos>.
+   <key> must be downcased, and collocated by underscore if it is a collocation."
   (with-open-file (index-stream (pos-index-file pos) :direction :input)
     (let ((index-tokens (%get-index-entry index-stream key pos)))
       (when index-tokens
@@ -95,9 +96,23 @@
               synsets)))))))
       
 (defun get-synset-number-in-index-entry (key offset pos)
-  "returns a synset number of <offset> in index entry for <key> in <pos>."
+  "returns the number of synset that is corresponding to <offset> in index entry for <key>."
   (let ((synsets (offsets-in-index-entry key pos)))
     (1+ (position offset synsets :key #'parse-integer))))
+
+(defun get-synonymous-words-from (offset pos)
+  (setq offset (parse-integer offset))
+  (let ((tokens (third (get-data-entry offset pos))))
+    (destructuring-bind (file-num p1 num-senses . senses-and-more) tokens
+      (declare (ignore p1 file-num))
+      (setq num-senses (parse-integer num-senses :radix 16))
+      (with-list-split-after (* 2 num-senses) (sense-stuff pointers-and-more) senses-and-more
+        (declare (ignore pointers-and-more))
+        (loop for (syn nil) on (if (eq pos :adjective)
+                                   (mapcar #'get-adj-word sense-stuff)
+                                 sense-stuff)
+              by #'cddr
+              collect syn)))))
 
 (defun make-synset-name-for-offset (offset pos &optional (package *wn-package*))
   (setq offset (parse-integer offset))
@@ -111,9 +126,9 @@
         (let ((primary-name
                (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff))))
           (make-synset-name
-           primary-name
-           (ss_type-from-symbol p1)
-           (get-synset-number-in-index-entry (string-downcase primary-name) offset pos)
+           primary-name (ss_type-from-symbol p1)
+           (get-synset-number-in-index-entry
+             (string-downcase primary-name) offset pos)
            *wn-package*))))))
 
 (defun get-ss_type-for-offset (offset pos)
@@ -341,7 +356,6 @@ position of its first character"
                        (when (and (eq type ss_type)
                                   (= sense_number synnumber))
                          (return tag_cnt)))))))))))
-
 
 ;;;
 ;;;; Verb Frames

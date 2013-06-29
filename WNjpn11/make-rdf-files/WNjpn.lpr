@@ -2,20 +2,35 @@
 
 (in-package :cg-user)
 
-(define-project :name :make-rdf-files
+(define-project :name :WNjpn
   :modules (list (make-instance 'module :name "package")
                  (make-instance 'module :name "wn20schema")
                  (make-instance 'module :name "wn21schema")
                  (make-instance 'module :name "wn30schema")
+                 (make-instance 'module :name "wnja11schema")
                  (make-instance 'module :name "utilmacro")
                  (make-instance 'module :name "Utils")
+                 (make-instance 'module :name "wnjpn")
                  (make-instance 'module :name "WordNet")
                  (make-instance 'module :name "WordNet20")
                  (make-instance 'module :name "WordNet21")
                  (make-instance 'module :name "WordNet30")
+                 (make-instance 'module :name "WordNetJa11")
                  (make-instance 'module :name "make-rdf-files"))
-  :projects nil
-  :libraries nil
+  :projects (list (make-instance 'project-module :name
+                                 "C:/allegro-projects/iterate/iterate" :show-modules nil)
+                  (make-instance 'project-module :name
+                                 "C:/allegro-projects/alexandria/alexandria"
+                                 :show-modules nil)
+                  (make-instance 'project-module :name "C:/allegro-projects/babel/babel"
+                                 :show-modules nil)
+                  (make-instance 'project-module :name "C:/allegro-projects/cffi/cffi"
+                                 :show-modules nil)
+                  (make-instance 'project-module :name
+                                 "C:/allegro-projects/cl-sqlite/cl-sqlite" :show-modules
+                                 nil))
+  :libraries (list (make-instance 'library-module :name
+                                  "C:/Windows/SysWOW64/sqlite/sqlite3.dll"))
   :editable-files nil
   :distributed-files nil
   :internally-loaded-files nil
