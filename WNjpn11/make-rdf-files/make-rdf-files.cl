@@ -590,7 +590,7 @@
                         (:adjective *adjective-synset-description-tail*)
                         (:adjectivesatellite *adjective-satellite-synset-description-tail*)
                         (:adverb *adverb-synset-description-tail*)))))
-
+  )
 
 ;;;
 ;;; If gloss strings include '<' and '>', they are escaped with '&lt' and '&gt', because
