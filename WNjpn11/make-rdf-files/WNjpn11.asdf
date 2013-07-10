@@ -15,6 +15,10 @@
          :type :wild
          ))))
 ) ; end of eval-when
+#+:sbcl
+(eval-when (:load-toplevel :execute)
+  (ql:quickload :iterate)
+)
 #-:sbcl
 (eval-when (:load-toplevel :execute)
   (unless (asdf:find-system "iterate" nil)
@@ -120,7 +124,11 @@
            ))))
     (load "CFFI:cffi.asd"))
   )
-
+#+sbcl
+(eval-when (:load-toplevel :execute)
+  (ql:quickload "sqlite")
+)
+#-sbcl
 (eval-when (:load-toplevel :execute)
   (unless (asdf:find-system "sqlite" nil)
     (defparameter *sqlite-directory*

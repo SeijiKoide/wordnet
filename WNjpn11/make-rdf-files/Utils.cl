@@ -83,7 +83,8 @@ This value is set at each version program.")
 This value is set at each Japanese version programl.")
 
 (defun make-word-name (str &optional (package *wn-package*))
-  (intern (concatenate 'cl:string "word-" (iri-escape-for-lexform str)) (find-instance-package package)))
+  (intern (concatenate 'cl:string "word-" (iri-escape-for-lexform str))
+          (find-instance-package package)))
 
 (defun make-sense-name (lexform pos n &optional (package *wn-package*))
   (intern (concatenate 'cl:string "wordsense-" (iri-escape-for-lexform lexform) "-" (string-downcase (string pos)) "-" (format cl:nil "~d" n))

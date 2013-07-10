@@ -1,4 +1,4 @@
-;; -*- lisp-version: "9.0 [64-bit Windows *SMP*] (Jun 21, 2013 15:28)"; cg: "9.0"; -*-
+;; -*- lisp-version: "8.2 [64-bit Linux (x86-64)] (Jun 30, 2013 14:43)"; cg: "1.134"; -*-
 
 (in-package :cg-user)
 
@@ -17,27 +17,20 @@
                  (make-instance 'module :name "WordNet30")
                  (make-instance 'module :name "WordNetJa11")
                  (make-instance 'module :name "make-rdf-files"))
-  :projects (list (make-instance 'project-module :name
-                                 "C:/allegro-projects/iterate/iterate" :show-modules nil)
-                  (make-instance 'project-module :name
-                                 "C:/allegro-projects/alexandria/alexandria"
-                                 :show-modules nil)
-                  (make-instance 'project-module :name "C:/allegro-projects/babel/babel"
+  :projects (list (make-instance 'project-module :name "C:/allegro-projects/babel/babel"
                                  :show-modules nil)
                   (make-instance 'project-module :name "C:/allegro-projects/cffi/cffi"
                                  :show-modules nil)
                   (make-instance 'project-module :name
                                  "C:/allegro-projects/cl-sqlite/cl-sqlite" :show-modules
                                  nil))
-  :libraries (list (make-instance 'library-module :name
-                                  "C:/Windows/SysWOW64/sqlite/sqlite3.dll"))
+  :libraries nil
   :editable-files nil
   :distributed-files nil
   :internally-loaded-files nil
   :project-package-name :common-graphics-user
   :main-form nil
   :compilation-unit t
-  :concatenate-project-fasls nil
   :verbose nil
   :runtime-modules (list :cg-dde-utils :cg.acache :cg.base :cg.bitmap-pane
                          :cg.bitmap-pane.clipboard :cg.bitmap-stream :cg.button :cg.caret

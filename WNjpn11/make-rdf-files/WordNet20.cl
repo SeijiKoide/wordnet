@@ -330,18 +330,24 @@
         (:adjective *adjective-word-sense-description-template*)
         (:adjectivesatellite *adjectivesatellite-word-sense-description-template*)
         (:adverb *adverb-word-sense-description-template*))
-    (package-name (symbol-package subjective-word-sense-name)) subjective-word-sense-name
-    (underscore2space primary-name) (or tagcount 0)
-    (package-name (symbol-package subjective-synset-name)) subjective-synset-name
-    (package-name (symbol-package word-name)) word-name)
+    (string-downcase (package-name (symbol-package subjective-word-sense-name)))
+    subjective-word-sense-name
+    (underscore2space primary-name)
+    (or tagcount 0)
+    (string-downcase (package-name (symbol-package subjective-synset-name)))
+    subjective-synset-name
+    (string-downcase (package-name (symbol-package word-name))) word-name)
   )
 
 (defun %%word-description-output (outstream word-name word senses)
   (format outstream
       (if (collocated-p word) *collocation-description-template* *word-description-template*)
-    (package-name (symbol-package word-name)) word-name
+    (string-downcase (package-name (symbol-package word-name)))
+    word-name
     (underscore2space word)
-    (mapcan #'(lambda (sense) (list (package-name (symbol-package sense)) sense)) senses)))
+    (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense)))
+                                    sense))
+      senses)))
 
 (defun %%word-sense-header-output (outstream ss_type sense-name word tagcount word-name synset-name)
   (format outstream
@@ -351,11 +357,12 @@
         (:adjective *adjective-word-sense-description-temp*)
         (:adjectivesatellite *adjectivesatellite-word-sense-description-temp*)
         (:adverb *adverb-word-sense-description-temp*))
-    (package-name (symbol-package sense-name)) sense-name
+    (string-downcase (package-name (symbol-package sense-name)))
+    sense-name
     (underscore2space word)
     (or tagcount 0)
-    (package-name (symbol-package word-name)) word-name
-    (package-name (symbol-package synset-name)) synset-name))
+    (string-downcase (package-name (symbol-package word-name))) word-name
+    (string-downcase (package-name (symbol-package synset-name))) synset-name))
 
 (defun %%word-sense-body-output (outstream ss_type word
                                            derivationallyRelated-source&target-sense-name-lists
@@ -376,7 +383,7 @@
             (:adjective "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adjectivesatellite "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adverb "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (package-name (symbol-package sense)) sense))
+        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
           (sort target-sense-names #'string<))))
     (when (setq target-sense-names
                 (mapcar #'cdr
@@ -387,7 +394,7 @@
             (:adjective "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adjectivesatellite "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adverb "~{  <wn20schema:adverbPertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (package-name (symbol-package sense)) sense))
+        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
           (sort target-sense-names #'string<))))
     (when (setq target-sense-names
                 (mapcar #'cdr
@@ -400,7 +407,7 @@
             (:adjective "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adjectivesatellite "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adverb "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (package-name (symbol-package sense)) sense))
+        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
           (sort target-sense-names #'string<))))
     (when (setq target-sense-names
                 (mapcar #'cdr
@@ -410,7 +417,7 @@
           (ecase ss_type
             (:adjective "~{  <wn20schema:participleOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
             (:adjectivesatellite "~{  <wn20schema:participleOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (package-name (symbol-package sense)) sense))
+        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
           (sort target-sense-names #'string<))))
     (loop for frame in (mapcar #'cdr
                          (remove-if-not #'(lambda (acons) (string= word (car acons)))
@@ -426,7 +433,7 @@
         (:adjective *adjective-synset-description-temp*)
         (:adjectivesatellite *adjective-satellite-synset-description-temp*)
         (:adverb *adverb-synset-description-temp*))
-    (package-name (symbol-package synset-name))
+    (string-downcase (package-name (symbol-package synset-name)))
     synset-name
     (underscore2space word)
     (+ offset
@@ -441,7 +448,7 @@
   (loop for sense-name in (sort (copy-list (cons subjective-word-sense-name synonymous-word-sense-names))
                                 #'string<)
       do (format outstream *synset-description-template-body*
-           (package-name (symbol-package sense-name)) sense-name)))
+           (string-downcase (package-name (symbol-package sense-name))) sense-name)))
 
 (defun make-sense-names (word pos)
   (ecase pos ((:noun :verb :adjective :adverb) t))
