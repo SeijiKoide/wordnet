@@ -557,7 +557,7 @@
     (when classified-by-region-target-names
       (format outstream
           "~{  <wn20schema:classifiedByRegion rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target)) target))
+        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
           (sort classified-by-region-target-names #'string<))))
     (when member-of-this-domain-topic-target-names
       (ecase ss_type (:noun t))
@@ -590,7 +590,6 @@
                         (:adjective *adjective-synset-description-tail*)
                         (:adjectivesatellite *adjective-satellite-synset-description-tail*)
                         (:adverb *adverb-synset-description-tail*)))))
-  )
 
 ;;;
 ;;; If gloss strings include '<' and '>', they are escaped with '&lt' and '&gt', because
