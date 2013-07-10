@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wnjpn; base: 10 -*-
 
 (in-package :wnjpn)
 

@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
 ;;; WordNet Schema for W3C RDF/OWL Representation based on W3C Working Draft 19 June 2006,
 ;;; See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/

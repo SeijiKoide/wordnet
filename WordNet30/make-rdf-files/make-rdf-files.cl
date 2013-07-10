@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
 ;;;; WordNet Dictionary Information Retrieval and OWL Conversion Program
 ;;;                  http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/

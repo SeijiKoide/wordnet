@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
 ;;; This program is applied to WordNet3.0 and Japanese WordNet 1.1.
 ;;;
@@ -171,6 +172,7 @@
 (setq *attributeOf-description-template* "<rdf:Description rdf:about=\"&wnja11instances;~A\">
 ~{  <wn20schema:attributeOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}
 </rdf:Description>~%~%")
+
 
 (setq *seealso-description-template* "<rdf:Description rdf:about=\"&wnja11instances;~A\">
 ~{  <wn20schema:seeAlso rdf:resource=\"&wnja11instances;~A\"/>~^~%~}

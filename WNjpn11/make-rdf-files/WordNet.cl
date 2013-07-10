@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
 ;;;; WordNet Dictionary Retrieval and OWL Conversion Program
 ;;; This program is applied to Allegro8.1 Modern and WordNet.

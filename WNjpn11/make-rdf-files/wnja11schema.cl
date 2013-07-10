@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
 ;;; Japanese WordNet Schema for W3C RDF/OWL Representation 
 ;;;
