@@ -1,7 +1,7 @@
 ;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
 ;;;
-;;;; WordNet Dictionary Retrieval and OWL Conversion Program
-;;; This program is applied to Allegro8.1 Modern and WordNet.
+;;;; WordNet Dictionary Information Retrieval and OWL Conversion Program
+;;; This program is applied to Allegro8.1, 8.2, 9.0 Modern, sbcl, and WordNet.
 ;;;
 ;;; WordNet Schema is based on W3C Working Draft 19 June 2006
 ;;; See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/
@@ -95,9 +95,9 @@
             (destructuring-bind (num-synsets TAGSENSE-CNT . synsets) tokens
               (declare (ignore num-synsets TAGSENSE-CNT))
               synsets)))))))
-      
+
 (defun get-synset-number-in-index-entry (key offset pos)
-  "returns the number of synset that is corresponding to <offset> in index entry for <key>."
+  "returns a synset number of <offset> in index entry for <key> in <pos>."
   (let ((synsets (offsets-in-index-entry key pos)))
     (1+ (position offset synsets :key #'parse-integer))))
 
@@ -112,8 +112,8 @@
         (loop for (syn nil) on (if (eq pos :adjective)
                                    (mapcar #'get-adj-word sense-stuff)
                                  sense-stuff)
-              by #'cddr
-              collect syn)))))
+            by #'cddr
+            collect syn)))))
 
 (defun make-synset-name-for-offset (offset pos &optional (package *wn-package*))
   (setq offset (parse-integer offset))
@@ -127,9 +127,10 @@
         (let ((primary-name
                (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff))))
           (make-synset-name
-           primary-name (ss_type-from-symbol p1)
+           primary-name
+           (ss_type-from-symbol p1)
            (get-synset-number-in-index-entry
-             (string-downcase primary-name) offset pos)
+            (string-downcase primary-name) offset pos)
            *wn-package*))))))
 
 (defun get-ss_type-for-offset (offset pos)

@@ -314,4 +314,18 @@
 (defvar *one-big-rdf-file-adjective-path* "WN20:wordnet-adjective.rdf")
 (defvar *one-big-rdf-file-adverb-path* "WN20:wordnet-adverb.rdf")
 (defvar *one-big-rdf-file-path* (merge-pathnames "wordnet.rdf" (user-homedir-pathname)))
-;;; EOF
+
+;;;
+;;; Output utils
+;;;
+
+(defun make-sense-names (word pos)
+  (ecase pos ((:noun :verb :adjective :adverb) t))
+  (loop for ofs in (offsets-in-index-entry (string-downcase word) pos) with i = 0
+      when (and (incf i)
+                (some #'(lambda (w) (string= w word)) (get-synonymous-words-from ofs pos)))
+      collect (make-sense-name word
+                               (if (eq pos :adjective)
+                                   (get-ss_type-for-offset ofs :adjective)
+                                 pos)
+                               i)))

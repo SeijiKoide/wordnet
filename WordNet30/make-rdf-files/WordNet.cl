@@ -81,7 +81,8 @@
 ;;;
 
 (defun offsets-in-index-entry (key pos)
-  "returns synset offsets of <key> for <pos>."
+  "returns synset offsets of <key> for <pos>.
+   <key> must be downcased, and collocated by underscore if it is a collocation."
   (with-open-file (index-stream (pos-index-file pos) :direction :input)
     (let ((index-tokens (%get-index-entry index-stream key pos)))
       (when index-tokens
@@ -94,11 +95,25 @@
             (destructuring-bind (num-synsets TAGSENSE-CNT . synsets) tokens
               (declare (ignore num-synsets TAGSENSE-CNT))
               synsets)))))))
-      
+
 (defun get-synset-number-in-index-entry (key offset pos)
   "returns a synset number of <offset> in index entry for <key> in <pos>."
   (let ((synsets (offsets-in-index-entry key pos)))
     (1+ (position offset synsets :key #'parse-integer))))
+
+(defun get-synonymous-words-from (offset pos)
+  (setq offset (parse-integer offset))
+  (let ((tokens (third (get-data-entry offset pos))))
+    (destructuring-bind (file-num p1 num-senses . senses-and-more) tokens
+      (declare (ignore p1 file-num))
+      (setq num-senses (parse-integer num-senses :radix 16))
+      (with-list-split-after (* 2 num-senses) (sense-stuff pointers-and-more) senses-and-more
+        (declare (ignore pointers-and-more))
+        (loop for (syn nil) on (if (eq pos :adjective)
+                                   (mapcar #'get-adj-word sense-stuff)
+                                 sense-stuff)
+            by #'cddr
+            collect syn)))))
 
 (defun make-synset-name-for-offset (offset pos &optional (package *wn-package*))
   (setq offset (parse-integer offset))
@@ -114,7 +129,8 @@
           (make-synset-name
            primary-name
            (ss_type-from-symbol p1)
-           (get-synset-number-in-index-entry (string-downcase primary-name) offset pos)
+           (get-synset-number-in-index-entry
+            (string-downcase primary-name) offset pos)
            *wn-package*))))))
 
 (defun get-ss_type-for-offset (offset pos)

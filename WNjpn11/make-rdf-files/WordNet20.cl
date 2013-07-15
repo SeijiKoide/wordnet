@@ -197,7 +197,7 @@
 </rdf:Description>~%~%")
 
 (defparameter *frame-description-template-head* "<rdf:Description rdf:about=\"&wn20instances;~A\">~%")
-(defparameter *frame-description-template-body* " <wn20schema:frame>~A</wn20schema:frame>~%")
+(defparameter *frame-description-template-body* "  <wn20schema:frame>~A</wn20schema:frame>~%")
 (defparameter *frame-description-template-tail* "</rdf:Description>~%~%")
 
 (defparameter *word-description-template* 
@@ -314,7 +314,6 @@
 (defvar *one-big-rdf-file-adjective-path* "WN20:wordnet-adjective.rdf")
 (defvar *one-big-rdf-file-adverb-path* "WN20:wordnet-adverb.rdf")
 (defvar *one-big-rdf-file-path* (merge-pathnames "wnjpn.rdf" (user-homedir-pathname)))
-;;; EOF
 
 ;;;
 ;;; Output utils
