@@ -73,22 +73,10 @@
                          (setq word-name (make-word-name word))
                          ;; Word entity output
                          (unless (member word-name *outputted-word-list*)
-                           (let ((noun-sense-names
-                                  (loop for offset in (offsets-in-index-entry (string-downcase word) :noun)
-                                      with i = 0
-                                      collect (make-sense-name word :noun (incf i))))
-                                 (verb-sense-names
-                                  (loop for offset in (offsets-in-index-entry (string-downcase word) :verb)
-                                      with i = 0
-                                      collect (make-sense-name word :verb (incf i))))
-                                 (adjective-sense-names
-                                  (loop for offset in (offsets-in-index-entry (string-downcase word) :adjective)
-                                      with i = 0
-                                      collect (make-sense-name word (get-ss_type-for-offset offset :adjective) (incf i))))
-                                 (adverb-sense-names
-                                  (loop for offset in (offsets-in-index-entry (string-downcase word) :adverb)
-                                      with i = 0
-                                      collect (make-sense-name word :adverb (incf i)))))
+                           (let ((noun-sense-names (make-sense-names word :noun))
+                                 (verb-sense-names (make-sense-names word :verb))
+                                 (adjective-sense-names (make-sense-names word :adjective))
+                                 (adverb-sense-names (make-sense-names word :adverb)))
                              (format outstream
                                  (if (collocated-p word) *collocation-description-template*
                                    *word-description-template*)

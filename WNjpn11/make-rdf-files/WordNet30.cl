@@ -76,19 +76,19 @@
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 
-(setq *verb-synset-description-temp* "<wn20schema:VerbSynset rdf:about=\"&wn30instances;~A\"
+(setq *verb-synset-description-temp* "<wn20schema:VerbSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 
-(setq *adjective-synset-description-temp* "<wn20schema:AdjectiveSynset rdf:about=\"&wn30instances;~A\"
+(setq *adjective-synset-description-temp* "<wn20schema:AdjectiveSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 
-(setq *adjective-satellite-synset-description-temp* "<wn20schema:AdjectiveSatelliteSynset rdf:about=\"&wn30instances;~A\"
+(setq *adjective-satellite-synset-description-temp* "<wn20schema:AdjectiveSatelliteSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 
-(setq *adverb-synset-description-temp* "<wn20schema:AdverbSynset rdf:about=\"&wn30instances;~A\"
+(setq *adverb-synset-description-temp* "<wn20schema:AdverbSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 

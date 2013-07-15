@@ -80,22 +80,22 @@
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 (defparameter *noun-synset-description-tail* "</wn20schema:NounSynset>~%~%")
 (defparameter *verb-synset-description-temp* 
-"<wn20schema:VerbSynset rdf:about=\"&wn20instances;~A\"
+"<wn20schema:VerbSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 (defparameter *verb-synset-description-tail* "</wn20schema:VerbSynset>~%~%")
 (defparameter *adjective-synset-description-temp* 
-"<wn20schema:AdjectiveSynset rdf:about=\"&wn20instances;~A\"
+"<wn20schema:AdjectiveSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 (defparameter *adjective-synset-description-tail* "</wn20schema:AdjectiveSynset>~%~%")
 (defparameter *adjective-satellite-synset-description-temp* 
-"<wn20schema:AdjectiveSatelliteSynset rdf:about=\"&wn20instances;~A\"
+"<wn20schema:AdjectiveSatelliteSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 (defparameter *adjective-satellite-synset-description-tail* "</wn20schema:AdjectiveSatelliteSynset>~%~%")
 (defparameter *adverb-synset-description-temp* 
-"<wn20schema:AdverbSynset rdf:about=\"&wn20instances;~A\"
+"<wn20schema:AdverbSynset rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
 (defparameter *adverb-synset-description-tail* "</wn20schema:AdverbSynset>~%~%")

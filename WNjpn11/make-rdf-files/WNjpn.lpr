@@ -17,9 +17,7 @@
                  (make-instance 'module :name "WordNet30")
                  (make-instance 'module :name "WordNetJa11")
                  (make-instance 'module :name "make-rdf-files"))
-  :projects (list (make-instance 'project-module :name "C:/allegro-projects/babel/babel"
-                                 :show-modules nil)
-                  (make-instance 'project-module :name "C:/allegro-projects/cffi/cffi"
+  :projects (list (make-instance 'project-module :name "C:/allegro-projects/cffi/cffi"
                                  :show-modules nil)
                   (make-instance 'project-module :name
                                  "C:/allegro-projects/cl-sqlite/cl-sqlite" :show-modules
