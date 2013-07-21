@@ -252,25 +252,25 @@
   <wn20schema:tagCount>~A</wn20schema:tagCount>
   <wn20schema:word rdf:resource=\"&~A;~A\"/>
   <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(defparameter *verb-word-sense-description-temp* 
+(defparameter *verb-word-sense-description-temp*
 "<wn20schema:VerbWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
   <wn20schema:word rdf:resource=\"&~A;~A\"/>
   <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(defparameter *adjective-word-sense-description-temp* 
+(defparameter *adjective-word-sense-description-temp*
 "<wn20schema:AdjectiveWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
   <wn20schema:word rdf:resource=\"&~A;~A\"/>
   <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(defparameter *adjectivesatellite-word-sense-description-temp* 
+(defparameter *adjectivesatellite-word-sense-description-temp*
 "<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
   <wn20schema:word rdf:resource=\"&~A;~A\"/>
   <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(defparameter *adverb-word-sense-description-temp* 
+(defparameter *adverb-word-sense-description-temp*
 "<wn20schema:AdverbWordSense rdf:about=\"&~A;~A\"
     rdfs:label=\"~A\">
   <wn20schema:tagCount>~A</wn20schema:tagCount>
@@ -349,100 +349,6 @@
                                     sense))
       senses)))
 
-(defun %%word-sense-header-output (outstream ss_type sense-name word tagcount word-name synset-name)
-  (format outstream
-      (ecase ss_type
-        (:noun *noun-word-sense-description-temp*)
-        (:verb *verb-word-sense-description-temp*)
-        (:adjective *adjective-word-sense-description-temp*)
-        (:adjectivesatellite *adjectivesatellite-word-sense-description-temp*)
-        (:adverb *adverb-word-sense-description-temp*))
-    (string-downcase (package-name (symbol-package sense-name)))
-    sense-name
-    (underscore2space word)
-    (or tagcount 0)
-    (string-downcase (package-name (symbol-package word-name))) word-name
-    (string-downcase (package-name (symbol-package synset-name))) synset-name))
-
-(defun %%word-sense-body-output (outstream ss_type word
-                                           derivationallyRelated-source&target-sense-name-lists
-                                           pertainsTo-source&target-sense-name-lists
-                                           antonym-source&target-sense-name-lists
-                                           participleof-source&target-sense-name-lists
-                                           word&frame-list)
-  (let (target-sense-names)
-    (when (setq target-sense-names
-                (mapcar #'cdr
-                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
-                                 derivationallyRelated-source&target-sense-name-lists)))
-      (format outstream
-          (ecase ss_type
-            (:noun "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:verb "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            ;; wn21
-            (:adjective "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjectivesatellite "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adverb "~{  <wn20schema:derivationallyRelated rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
-          (sort target-sense-names #'string<))))
-    (when (setq target-sense-names
-                (mapcar #'cdr
-                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
-                                 pertainsTo-source&target-sense-name-lists)))
-      (format outstream
-          (ecase ss_type
-            (:adjective "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjectivesatellite "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adverb "~{  <wn20schema:adverbPertainsTo rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
-          (sort target-sense-names #'string<))))
-    (when (setq target-sense-names
-                (mapcar #'cdr
-                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
-                                 antonym-source&target-sense-name-lists)))
-      (format outstream
-          (ecase ss_type
-            (:noun "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:verb "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjective "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjectivesatellite "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adverb "~{  <wn20schema:antonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
-          (sort target-sense-names #'string<))))
-    (when (setq target-sense-names
-                (mapcar #'cdr
-                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
-                                 participleof-source&target-sense-name-lists)))
-      (format outstream
-          (ecase ss_type
-            (:adjective "~{  <wn20schema:participleOf rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjectivesatellite "~{  <wn20schema:participleOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (sense) (list (string-downcase (package-name (symbol-package sense))) sense))
-          (sort target-sense-names #'string<))))
-    (loop for frame in (mapcar #'cdr
-                         (remove-if-not #'(lambda (acons) (string= word (car acons)))
-                                        word&frame-list))
-        do (format outstream *frame-description-template-body*
-             (make-frame-sentence word frame)))))
-
-(defun %%synset-header-output (outstream ss_type synset-name word offset)
-  (format outstream
-      (ecase ss_type
-        (:noun *noun-synset-description-temp*)
-        (:verb *verb-synset-description-temp*)
-        (:adjective *adjective-synset-description-temp*)
-        (:adjectivesatellite *adjective-satellite-synset-description-temp*)
-        (:adverb *adverb-synset-description-temp*))
-    (string-downcase (package-name (symbol-package synset-name)))
-    synset-name
-    (underscore2space word)
-    (+ offset
-       (ecase ss_type
-         (:noun 100000000)
-         (:verb 200000000)
-         (:adjective 300000000)
-         (:adjectivesatellite 300000000)
-         (:adverb 400000000)))))
 
 (defun %%synset-body-output (outstream subjective-word-sense-name synonymous-word-sense-names)
   (loop for sense-name in (sort (copy-list (cons subjective-word-sense-name synonymous-word-sense-names))

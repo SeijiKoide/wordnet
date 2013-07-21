@@ -182,13 +182,23 @@
   <wn20schema:gloss>~A</wn20schema:gloss>
 </rdf:Description>~%~%")
 
-(setq *word-description-template* "<wn20schema:Word rdf:about=\"&~A;~A\"
+(setq *word-description-template* "<wn20schema:Word rdf:about=\"&wnja11instances;~A\"
     wn20schema:lexicalForm=\"~A\">
-~{  <wn20schema:sense rdf:resource=\"&~A;~A\"/>~^~%~}
+~{  <wn20schema:sense rdf:resource=\"&wnja11instances;~A\"/>~^~%~}
 </wn20schema:Word>~%~%")
-(setq *collocation-description-template* "<wn20schema:Collocation rdf:about=\"&~A;~A\"
+(defparameter *word-description-template-sameAs* "<wn20schema:Word rdf:about=\"&wnja11instances;~A\"
     wn20schema:lexicalForm=\"~A\">
-~{  <wn20schema:sense rdf:resource=\"&~A;~A\"/>~^~%~}
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+~{  <wn20schema:sense rdf:resource=\"&wnja11instances;~A\"/>~^~%~}
+</wn20schema:Word>~%~%")
+(setq *collocation-description-template* "<wn20schema:Collocation rdf:about=\"&wnja11instances;~A\"
+    wn20schema:lexicalForm=\"~A\">
+~{  <wn20schema:sense rdf:resource=\"&wnja11instances;~A\"/>~^~%~}
+</wn20schema:Collocation>~%~%")
+(defparameter *collocation-description-template-sameAs* "<wn20schema:Collocation rdf:about=\"&wnja11instances;~A\"
+    wn20schema:lexicalForm=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+~{  <wn20schema:sense rdf:resource=\"&wnja11instances;~A\"/>~^~%~}
 </wn20schema:Collocation>~%~%")
 
 (setq *synset-file-path* "WNJA11:wordnet-synset.rdf")
@@ -219,4 +229,204 @@
 (setq *one-big-rdf-file-adjective-path* "WNJA11:wordnet-adjective.rdf")
 (setq *one-big-rdf-file-adverb-path* "WNJA11:wordnet-adverb.rdf")
 (setq *one-big-rdf-file-path* (merge-pathnames "wnjpn.rdf" (user-homedir-pathname)))
+
+(setq *noun-word-sense-description-temp* 
+"<wn20schema:NounWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(defparameter *noun-word-sense-description-temp-sameAs* 
+"<wn20schema:NounWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(setq *verb-word-sense-description-temp* 
+"<wn20schema:VerbWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(defparameter *verb-word-sense-description-temp-sameAs* 
+"<wn20schema:VerbWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(setq *adjective-word-sense-description-temp* 
+"<wn20schema:AdjectiveWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(defparameter *adjective-word-sense-description-temp-sameAs* 
+"<wn20schema:AdjectiveWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(setq *adjectivesatellite-word-sense-description-temp* 
+"<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(defparameter *adjectivesatellite-word-sense-description-temp-sameAs* 
+"<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(setq *adverb-word-sense-description-temp* 
+"<wn20schema:AdverbWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+(defparameter *adverb-word-sense-description-temp-sameAs* 
+"<wn20schema:AdverbWordSense rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:tagCount>~A</wn20schema:tagCount>
+  <wn20schema:word rdf:resource=\"&wnja11instances;~A\"/>
+  <wn20schema:inSynset rdf:resource=\"&wnja11instances;~A\"/>~%" )
+
+(defun %%word-sense-header-output (outstream ss_type sense-name word tagcount word-name synset-name)
+  (if (eql (symbol-package sense-name) (find-package :wnja11instances))
+      ;; Japanese sense
+      (format outstream
+          (ecase ss_type
+            (:noun *noun-word-sense-description-temp*)
+            (:verb *verb-word-sense-description-temp*)
+            (:adjective *adjective-word-sense-description-temp*)
+            (:adjectivesatellite *adjectivesatellite-word-sense-description-temp*)
+            (:adverb *adverb-word-sense-description-temp*))
+        sense-name (underscore2space word)
+        (or tagcount 0)
+        word-name
+        synset-name)
+    ;; English sense
+    (format outstream
+        (ecase ss_type
+          (:noun *noun-word-sense-description-temp-sameAs*)
+          (:verb *verb-word-sense-description-temp-sameAs*)
+          (:adjective *adjective-word-sense-description-temp-sameAs*)
+          (:adjectivesatellite *adjectivesatellite-word-sense-description-temp-sameAs*)
+          (:adverb *adverb-word-sense-description-temp-sameAs*))
+      sense-name (underscore2space word) sense-name
+      (or tagcount 0)
+      word-name
+      synset-name)))
+
+(defun %%word-sense-body-output (outstream ss_type word
+                                           derivationallyRelated-source&target-sense-name-lists
+                                           pertainsTo-source&target-sense-name-lists
+                                           antonym-source&target-sense-name-lists
+                                           participleof-source&target-sense-name-lists
+                                           word&frame-list)
+  (let (target-sense-names)
+    (when (setq target-sense-names
+                (mapcar #'cdr
+                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
+                                 derivationallyRelated-source&target-sense-name-lists)))
+      (format outstream
+          (ecase ss_type
+            (:noun "~{  <wn20schema:derivationallyRelated rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:verb "~{  <wn20schema:derivationallyRelated rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            ;; wn21
+            (:adjective "~{  <wn20schema:derivationallyRelated rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjectivesatellite "~{  <wn20schema:derivationallyRelated rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adverb "~{  <wn20schema:derivationallyRelated rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"))
+        (sort target-sense-names #'string<)))
+    (when (setq target-sense-names
+                (mapcar #'cdr
+                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
+                                 pertainsTo-source&target-sense-name-lists)))
+      (format outstream
+          (ecase ss_type
+            (:adjective "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjectivesatellite "~{  <wn20schema:adjectivePertainsTo rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adverb "~{  <wn20schema:adverbPertainsTo rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"))
+        (sort target-sense-names #'string<)))
+    (when (setq target-sense-names
+                (mapcar #'cdr
+                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
+                                 antonym-source&target-sense-name-lists)))
+      (format outstream
+          (ecase ss_type
+            (:noun "~{  <wn20schema:antonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:verb "~{  <wn20schema:antonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjective "~{  <wn20schema:antonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjectivesatellite "~{  <wn20schema:antonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adverb "~{  <wn20schema:antonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"))
+        (sort target-sense-names #'string<)))
+    (when (setq target-sense-names
+                (mapcar #'cdr
+                  (remove-if-not #'(lambda (acons) (string= word (car acons)))
+                                 participleof-source&target-sense-name-lists)))
+      (format outstream
+          (ecase ss_type
+            (:adjective "~{  <wn20schema:participleOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjectivesatellite "~{  <wn20schema:participleOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"))
+        (sort target-sense-names #'string<)))
+    (loop for frame in (mapcar #'cdr
+                         (remove-if-not #'(lambda (acons) (string= word (car acons)))
+                                        word&frame-list))
+        do (format outstream *frame-description-template-body*
+             (make-frame-sentence word frame)))))
+
+(setq *noun-synset-description-temp*
+"<wn20schema:NounSynset rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
+
+(setq *verb-synset-description-temp*
+"<wn20schema:VerbSynset rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
+
+(setq *adjective-synset-description-temp*
+"<wn20schema:AdjectiveSynset rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
+
+(setq *adjective-satellite-synset-description-temp*
+"<wn20schema:AdjectiveSatelliteSynset rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
+
+(setq *adverb-synset-description-temp*
+"<wn20schema:AdverbSynset rdf:about=\"&wnja11instances;~A\"
+    rdfs:label=\"~A\">
+  <owl:sameAs rdf:resource=\"&wn30instances;~A\"/>
+  <wn20schema:synsetId>~D</wn20schema:synsetId>~%")
+
+(setq *synset-description-template-body* "  <wn20schema:containsWordSense rdf:resource=\"&wnja11instances;~A\"/>~%")
+
+
+(defun %%synset-header-output (outstream ss_type synset-name word offset)
+  (format outstream
+      (ecase ss_type
+        (:noun *noun-synset-description-temp*)
+        (:verb *verb-synset-description-temp*)
+        (:adjective *adjective-synset-description-temp*)
+        (:adjectivesatellite *adjective-satellite-synset-description-temp*)
+        (:adverb *adverb-synset-description-temp*))
+    synset-name (underscore2space word) synset-name
+    (+ offset
+       (ecase ss_type
+         (:noun 100000000)
+         (:verb 200000000)
+         (:adjective 300000000)
+         (:adjectivesatellite 300000000)
+         (:adverb 400000000)))))
 ;;; EOF

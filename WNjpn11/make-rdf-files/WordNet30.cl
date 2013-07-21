@@ -233,34 +233,6 @@
   <wn20schema:word rdf:resource=\"&wn30instances;~A\"/>
 </wn20schema:AdverbWordSense>~%~%" )
 
-(setq *noun-word-sense-description-temp* "<wn20schema:NounWordSense rdf:about=\"&~A;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&~A;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(setq *verb-word-sense-description-temp* "<wn20schema:VerbWordSense rdf:about=\"&~A;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&~A;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(setq *adjective-word-sense-description-temp* "<wn20schema:AdjectiveWordSense rdf:about=\"&~A;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&~A;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(setq *adjectivesatellite-word-sense-description-temp* "<wn20schema:AdjectiveSatelliteWordSense rdf:about=\"&~A;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&~A;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-(setq *adverb-word-sense-description-temp* "<wn20schema:AdverbWordSense rdf:about=\"&~A;~A\"
-    rdfs:label=\"~A\">
-  <wn20schema:tagCount>~A</wn20schema:tagCount>
-  <wn20schema:word rdf:resource=\"&~A;~A\"/>
-  <wn20schema:inSynset rdf:resource=\"&~A;~A\"/>~%" )
-
-
-(setq *synset-description-template-head* "<rdf:Description rdf:about=\"&~A;~A\">~%")
 (setq *synset-description-template-body* "  <wn20schema:containsWordSense rdf:resource=\"&~A;~A\"/>~%")
 
 
@@ -292,4 +264,5 @@
 (setq *one-big-rdf-file-adjective-path* "WN30:wordnet-adjective.rdf")
 (setq *one-big-rdf-file-adverb-path* "WN30:wordnet-adverb.rdf")
 (setq *one-big-rdf-file-path* (merge-pathnames "wnjpn.rdf" (user-homedir-pathname)))
+
 ;;; EOF

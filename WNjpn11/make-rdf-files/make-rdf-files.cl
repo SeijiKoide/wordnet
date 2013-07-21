@@ -77,15 +77,19 @@
                                  (verb-sense-names (make-sense-names word :verb))
                                  (adjective-sense-names (make-sense-names word :adjective))
                                  (adverb-sense-names (make-sense-names word :adverb)))
-                             (format outstream
-                                 (if (collocated-p word) *collocation-description-template*
-                                   *word-description-template*)
-                               (string-downcase (package-name (symbol-package word-name)))
-                               word-name (underscore2space word)
-                               (append (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name)) noun-sense-names)
-                                       (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name)) verb-sense-names)
-                                       (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name)) adjective-sense-names)
-                                       (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name)) adverb-sense-names)))
+                             (if (eql (symbol-package word-name) (find-package :wnja11instances))
+                                 ;; Japanese word
+                                 (format outstream
+                                     (if (collocated-p word) *collocation-description-template*
+                                       *word-description-template*)
+                                   word-name (underscore2space word)
+                                   (append noun-sense-names verb-sense-names adjective-sense-names adverb-sense-names))
+                               ;; else English
+                               (format outstream
+                                   (if (collocated-p word) *collocation-description-template-sameAs*
+                                     *word-description-template-sameAs*)
+                                 word-name (underscore2space word) word-name
+                                 (append noun-sense-names verb-sense-names adjective-sense-names adverb-sense-names)))
                              (push word-name *outputted-word-list*))))
                    ;; get synonimous japanese words from wnjpn.db
                    (let ((*wn-package* *wnja-package*))
@@ -110,19 +114,19 @@
                                     (loop for synset in (wnjpn:synsets-in-jpndb word :adverb)
                                         with i = 0
                                         collect (make-sense-name word :adverb (incf i)))))
-                               (format outstream
-                                   (if (collocated-p word) *collocation-description-template*
-                                     *word-description-template*)
-                                 (string-downcase (package-name (symbol-package word-name))) word-name (underscore2space word)
-                                 (append
-                                  (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name))
-                                           noun-sense-names)
-                                  (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name))
-                                           verb-sense-names)
-                                  (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name))
-                                           adjective-sense-names)
-                                  (mappend #'(lambda (name) (list (string-downcase (package-name (symbol-package name))) name))
-                                           adverb-sense-names)))
+                               (if (eql (symbol-package word-name) (find-package :wnja11instances))
+                                   ;; Japanese word
+                                   (format outstream
+                                       (if (collocated-p word) *collocation-description-template*
+                                         *word-description-template*)
+                                     word-name (underscore2space word)
+                                     (append noun-sense-names verb-sense-names adjective-sense-names adverb-sense-names))
+                                 ;; English
+                                 (format outstream
+                                       (if (collocated-p word) *collocation-description-template-sameAs*
+                                         *word-description-template-sameAs*)
+                                     word-name (underscore2space word) word-name
+                                     (append noun-sense-names verb-sense-names adjective-sense-names adverb-sense-names)))
                                (push word-name *jpn-outputted-word-list*))))))))))))
 
 (defun %make-rdf-file-without-word (pos outstream)
@@ -145,7 +149,7 @@
                  (let ((primary-name (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff)))
                        (synonyms (loop for (word nil) on (cddr sense-stuff) by #'cddr collect word)))
                    ;; print a primary-name
-                   (format t "~%Reading ~S ... " primary-name)
+                   (format t "~%Read ~S." primary-name)
                    (with-list-split-after (* 4 (parse-integer (car pointers-and-more)))
                      (pointer-stuff rest) (cdr pointers-and-more)
                      (let ((word&frame-list nil)
@@ -439,132 +443,110 @@
     ;; body
     (loop for sense-name in (sort (copy-list sense-names) #'string<)
         do (format outstream *synset-description-template-body*
-             (string-downcase (package-name (symbol-package sense-name)))
              sense-name))
     (when hyponym-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn20schema:hyponymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort hyponym-target-synset-names #'string<))))
+          "~{  <wn20schema:hyponymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
+        (sort hyponym-target-synset-names #'string<)))
     (when hyponym-instance-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn21schema:instanceHyponymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort hyponym-instance-target-synset-names #'string<))))
+          "~{  <wn21schema:instanceHyponymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort hyponym-instance-target-synset-names #'string<)))
     (when hypernym-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn20schema:hypernymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort hypernym-target-synset-names #'string<))))
+          "~{  <wn20schema:hypernymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort hypernym-target-synset-names #'string<)))
     (when hypernym-instance-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn21schema:instanceHypernymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort hypernym-instance-target-synset-names #'string<))))
+          "~{  <wn21schema:instanceHypernymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort hypernym-instance-target-synset-names #'string<)))
     (when membermeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:memberMeronymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort membermeronym-target-synset-names #'string<))))
+          "~{  <wn20schema:memberMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort membermeronym-target-synset-names #'string<)))
     (when memberholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:memberHolonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort memberholonym-target-synset-names #'string<))))
+          "~{  <wn20schema:memberHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort memberholonym-target-synset-names #'string<)))
     (when partmeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:partMeronymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort partmeronym-target-synset-names #'string<))))
+          "~{  <wn20schema:partMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort partmeronym-target-synset-names #'string<)))
     (when partholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:partHolonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort partholonym-target-synset-names #'string<))))
+          "~{  <wn20schema:partHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort partholonym-target-synset-names #'string<)))
     (when substancemeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:substanceMeronymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort substancemeronym-target-synset-names #'string<))))
+          "~{  <wn20schema:substanceMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort substancemeronym-target-synset-names #'string<)))
     (when substanceholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:substanceHolonymOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort substanceholonym-target-synset-names #'string<))))
+          "~{  <wn20schema:substanceHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort substanceholonym-target-synset-names #'string<)))
     (when similarity-target-synset-names
       (ecase ss_type ((:adjective :adjectivesatellite) t))
       (format outstream
-          "~{  <wn20schema:similarTo rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort similarity-target-synset-names #'string<))))
+          "~{  <wn20schema:similarTo rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort similarity-target-synset-names #'string<)))
     (when attribute-target-synset-names
       (format outstream
           (ecase ss_type
-            (:noun      "~{  <wn20schema:attribute rdf:resource=\"&~A;~A\"/>~^~%~}~%")
-            (:adjective "~{  <wn20schema:attributeOf rdf:resource=\"&~A;~A\"/>~^~%~}~%"))
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort attribute-target-synset-names #'string<))))
+            (:noun      "~{  <wn20schema:attribute rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%")
+            (:adjective "~{  <wn20schema:attributeOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"))
+        (sort attribute-target-synset-names #'string<)))
     (when sameverbgroupas-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:sameVerbGroupAs rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort sameverbgroupas-target-synset-names #'string<))))
+          "~{  <wn20schema:sameVerbGroupAs rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort sameverbgroupas-target-synset-names #'string<)))
     (when entailment-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:entails rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort entailment-target-synset-names #'string<))))
+          "~{  <wn20schema:entails rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort entailment-target-synset-names #'string<)))
     (when causes-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:causes rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (synset) (list (string-downcase (package-name (symbol-package synset))) synset))
-          (sort causes-target-synset-names #'string<))))
+          "~{  <wn20schema:causes rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort causes-target-synset-names #'string<)))
     (when classified-by-topic-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByTopic rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort classified-by-topic-target-names #'string<))))
+          "~{  <wn20schema:classifiedByTopic rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort classified-by-topic-target-names #'string<)))
     (when classified-by-usage-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByUsage rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort classified-by-usage-target-names #'string<))))
+          "~{  <wn20schema:classifiedByUsage rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort classified-by-usage-target-names #'string<)))
     (when classified-by-region-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByRegion rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort classified-by-region-target-names #'string<))))
+          "~{  <wn20schema:classifiedByRegion rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort classified-by-region-target-names #'string<)))
     (when member-of-this-domain-topic-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesTopic rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort member-of-this-domain-topic-target-names #'string<))))
+          "~{  <wn20schema:classifiesTopic rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort member-of-this-domain-topic-target-names #'string<)))
     (when member-of-this-domain-region-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesRegion rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort member-of-this-domain-region-target-names #'string<))))
+          "~{  <wn20schema:classifiesRegion rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort member-of-this-domain-region-target-names #'string<)))
     (when member-of-this-domain-usage-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesUsage rdf:resource=\"&~A;~A\"/>~^~%~}~%"
-        (mapcan #'(lambda (target) (list (string-downcase (package-name (symbol-package target))) target))
-          (sort member-of-this-domain-usage-target-names #'string<))))
+          "~{  <wn20schema:classifiesUsage rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+        (sort member-of-this-domain-usage-target-names #'string<)))
     ;; gloss
     (when gloss-stuff
       (format outstream "  <wn20schema:gloss>~A</wn20schema:gloss>~%"

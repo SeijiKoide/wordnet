@@ -15,7 +15,7 @@
 
 (defpackage wn
   (:use :common-lisp)
-  (:export split-seq-using get-synset-number-in-index-entry))
+  (:export make-one-big-rdf-file split-seq-using get-synset-number-in-index-entry))
 
 (defpackage wnjpn
   (:use :common-lisp :sqlite)
