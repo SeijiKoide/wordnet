@@ -452,100 +452,100 @@
     (when hyponym-instance-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn21schema:instanceHyponymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn21schema:instanceHyponymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort hyponym-instance-target-synset-names #'string<)))
     (when hypernym-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn20schema:hypernymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:hypernymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort hypernym-target-synset-names #'string<)))
     (when hypernym-instance-target-synset-names
       (ecase ss_type ((:noun :verb) t))
       (format outstream
-          "~{  <wn21schema:instanceHypernymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn21schema:instanceHypernymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort hypernym-instance-target-synset-names #'string<)))
     (when membermeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:memberMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:memberMeronymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort membermeronym-target-synset-names #'string<)))
     (when memberholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:memberHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:memberHolonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort memberholonym-target-synset-names #'string<)))
     (when partmeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:partMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:partMeronymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort partmeronym-target-synset-names #'string<)))
     (when partholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:partHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:partHolonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort partholonym-target-synset-names #'string<)))
     (when substancemeronym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:substanceMeronymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:substanceMeronymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort substancemeronym-target-synset-names #'string<)))
     (when substanceholonym-target-synset-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:substanceHolonymOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:substanceHolonymOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort substanceholonym-target-synset-names #'string<)))
     (when similarity-target-synset-names
       (ecase ss_type ((:adjective :adjectivesatellite) t))
       (format outstream
-          "~{  <wn20schema:similarTo rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:similarTo rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort similarity-target-synset-names #'string<)))
     (when attribute-target-synset-names
       (format outstream
           (ecase ss_type
-            (:noun      "~{  <wn20schema:attribute rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%")
-            (:adjective "~{  <wn20schema:attributeOf rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"))
+            (:noun      "~{  <wn20schema:attribute rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%")
+            (:adjective "~{  <wn20schema:attributeOf rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"))
         (sort attribute-target-synset-names #'string<)))
     (when sameverbgroupas-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:sameVerbGroupAs rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:sameVerbGroupAs rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort sameverbgroupas-target-synset-names #'string<)))
     (when entailment-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:entails rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:entails rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort entailment-target-synset-names #'string<)))
     (when causes-target-synset-names
       (ecase ss_type (:verb t))
       (format outstream
-          "~{  <wn20schema:causes rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:causes rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort causes-target-synset-names #'string<)))
     (when classified-by-topic-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByTopic rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiedByTopic rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort classified-by-topic-target-names #'string<)))
     (when classified-by-usage-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByUsage rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiedByUsage rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort classified-by-usage-target-names #'string<)))
     (when classified-by-region-target-names
       (format outstream
-          "~{  <wn20schema:classifiedByRegion rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiedByRegion rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort classified-by-region-target-names #'string<)))
     (when member-of-this-domain-topic-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesTopic rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiesTopic rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort member-of-this-domain-topic-target-names #'string<)))
     (when member-of-this-domain-region-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesRegion rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiesRegion rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort member-of-this-domain-region-target-names #'string<)))
     (when member-of-this-domain-usage-target-names
       (ecase ss_type (:noun t))
       (format outstream
-          "~{  <wn20schema:classifiesUsage rdf:resource=\"&wnja11instance;~A\"/>~^~%~}~%"
+          "~{  <wn20schema:classifiesUsage rdf:resource=\"&wnja11instances;~A\"/>~^~%~}~%"
         (sort member-of-this-domain-usage-target-names #'string<)))
     ;; gloss
     (when gloss-stuff

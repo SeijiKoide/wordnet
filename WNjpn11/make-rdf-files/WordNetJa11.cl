@@ -44,8 +44,9 @@
             (find-instance-package package))))
 
 (setq *doc-decl* "<!DOCTYPE rdf:RDF [
-    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdf  'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
     <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY owl  'http://www.w3.org/2002/07/owl#'>
     <!ENTITY wn20instances 'http://www.w3.org/2006/03/wn/wn20/instances/'>
     <!ENTITY wn20schema 'http://www.w3.org/2006/03/wn/wn20/schema/'>
     <!ENTITY wn30instances 'http://www.w3.org/2006/03/wn/wn30/instances/'>
@@ -56,6 +57,7 @@
 "<rdf:RDF
     xmlns:rdf=\"&rdf;\"
     xmlns:rdfs=\"&rdfs;\"
+    xmlns:owl=\"&owl;\"
     xmlns:wn20instances=\"&wn20instances;\"
     xmlns:wn20schema=\"&wn20schema;\"
     xmlns:wn30instances=\"&wn30instances;\"
