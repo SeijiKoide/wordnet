@@ -32,16 +32,13 @@ See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/."
   :serial t
   :components
   ((:file "package")
-   (:file "wn20schema")
-   (:file "wn21schema")
-   (:file "wn30schema")
    (:file "utilmacro")
    (:file "Utils")
    (:file "WordNet");        :depends-on ("utilmacro" "Utils"))
    (:file "WordNet20");      :depends-on ("utilmacro")); "Utils" "wn20schema"))
    (:file "WordNet21");      :depends-on ("utilmacro" "WordNet20"))
    (:file "WordNet30");      :depends-on ("utilmacro" "WordNet20"))
-   (:file "make-rdf-files"); :depends-on ("wn20schema" "wn21schema" "wn30schema" "utilmacro" "Utils" "WordNet" 
+   (:file "make-rdf-files"); :depends-on ("utilmacro" "Utils" "WordNet" 
                            ;             "WordNet20" "WordNet21" "WordNet30"))
    )
 )
@@ -50,12 +47,6 @@ See http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/."
 (format t "~%=========== System Description ================")
 (describe (asdf:find-system :wordnet2rdf))
 (format t "===============================================~%")
-
-(format t "~%;; To compile RDF module, execute these forms:~%;; ~s~%"
-  '(asdf:operate 'asdf:compile-op :make-rdf-files))
-
-(format t "~%;; To load RDF module, execute these forms:~%;; ~s~%"
-  '(asdf:operate 'asdf:load-op :make-rdf-files))
 
 (format t "~%;; To load a whole system, execute these forms:~%;; ~s~%"
   '(asdf:load-system :wordnet2rdf))
