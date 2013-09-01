@@ -30,14 +30,16 @@
   "This function performs Percent-Encoding for word and lexform."
   (flet ((escape-p (c)
                    (declare (optimize (speed 3) (safety 1)))
-                   (or (char= c #\%)
-                       (char= c #\/)
-                       (char= c #\?)
+                   (or (char= c #\/)
+                       (char= c #\?)     ;x3F
                        (char= c #\#)
                        (char= c #\[)
                        (char= c #\])
-                       (eq (char-code c) #x20)
-                       )))
+                       (char= c #\")     ;x22
+                       (char= c #\%)     ;x25
+                       (char= c #\`)     ;x60
+                       (char= c #\^)     ;x5E
+                       (eq (char-code c) #x20))))
     (labels ((escape (str)
                      (let ((pos 0))
                        (cond ((setq pos (position-if #'escape-p str)) ; found
