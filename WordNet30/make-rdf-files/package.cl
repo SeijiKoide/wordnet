@@ -1,3 +1,4 @@
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: cl-user; base: 10 -*-
 ;;;
 ;;;; WordNet Dictionary Information Retrieval and OWL Conversion Program
 ;;;                  http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/
@@ -10,9 +11,10 @@
 
 (in-package :cl-user)
 
-(defpackage wn
+(defpackage wn2rdf
   (:use :common-lisp)
-  (:export split-seq-using get-synset-number-in-index-entry))
+  (:export #:split-seq-using #:get-synset-number-in-index-entry
+           #:main))
 
 (defpackage wn20
   (:use :common-lisp))

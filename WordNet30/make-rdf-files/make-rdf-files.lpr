@@ -1,12 +1,9 @@
-;; -*- lisp-version: "9.0 [64-bit Windows *SMP*] (Jun 21, 2013 15:28)"; cg: "9.0"; -*-
+;; -*- lisp-version: "8.2 [64-bit Linux (x86-64)] (Sep 1, 2013 15:38)"; cg: "1.134"; -*-
 
 (in-package :cg-user)
 
 (define-project :name :make-rdf-files
   :modules (list (make-instance 'module :name "package")
-                 (make-instance 'module :name "wn20schema")
-                 (make-instance 'module :name "wn21schema")
-                 (make-instance 'module :name "wn30schema")
                  (make-instance 'module :name "utilmacro")
                  (make-instance 'module :name "Utils")
                  (make-instance 'module :name "WordNet")
@@ -22,7 +19,6 @@
   :project-package-name :common-graphics-user
   :main-form nil
   :compilation-unit t
-  :concatenate-project-fasls nil
   :verbose nil
   :runtime-modules (list :cg-dde-utils :cg.acache :cg.base :cg.bitmap-pane
                          :cg.bitmap-pane.clipboard :cg.bitmap-stream :cg.button :cg.caret

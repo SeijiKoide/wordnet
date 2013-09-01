@@ -1,4 +1,4 @@
-;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn2rdf; base: 10 -*-
 ;;;
 ;;;; Utility Macros for WordNet and Miscellaneous Functions
 ;;; This program is applied to Allegro8.1, 8.2, 9.0 Modern, sbcl, and WordNet.
@@ -10,7 +10,7 @@
 ;;; 2005.01.21    File obtained from Ruml's web site.
 ;;;
 
-(in-package :wn)
+(in-package :wn2rdf)
 
 ;;;======================================================================================
 

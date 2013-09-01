@@ -1,4 +1,4 @@
-;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn; base: 10 -*-
+;;;-*- Mode: common-lisp; syntax: common-lisp; package: wn2rdf; base: 10 -*-
 ;;;
 ;;;; WordNet Dictionary Information Retrieval and OWL Conversion Program
 ;;;                  http://www.w3.org/TR/2006/WD-wordnet-rdf-20060619/
@@ -10,7 +10,7 @@
 ;; 2011/06/17    File created.
 ;;; ==================================================================================
 
-(in-package :wn)
+(in-package :wn2rdf)
 
 (defparameter *outputted-word-list* nil)
 
@@ -19,11 +19,10 @@
 ;;;
 
 #|
-(in-package :wn)
-(make-one-big-rdf-file)
+(wn2rdf:main)
 |#
 
-(defun make-one-big-rdf-file ()
+(defun main ()
   (setq *outputted-word-list* nil)
   (with-open-file (outstream *one-big-rdf-file-path* :direction :output)
     (format outstream *xml-decl*)
@@ -61,7 +60,7 @@
                  (sense-stuff pointers-and-more) senses-and-more
                  (declare (ignore pointers-and-more))
                  ;; print a primary-name
-                 (format t "~%Reading ~S ... " (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff)))
+                 ;(format t "~%Reading ~S ... " (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff)))
                  (let ((synonyms (loop for (word nil) on sense-stuff by #'cddr collect word)))
                    (loop for word in synonyms with word-name
                        do (when (eq pos :adjective) (setq word (get-adj-word word)))
@@ -98,7 +97,7 @@
                  (sense-stuff pointers-and-more) senses-and-more
                  (let ((primary-name (if (eq pos :adjective) (get-adj-word (car sense-stuff)) (car sense-stuff))))
                    ;; print a primary-name
-                   (format t "~%Reading ~S ... " primary-name)
+                   ;(format t "~%Reading ~S ... " primary-name)
                    (with-list-split-after (* 4 (parse-integer (car pointers-and-more)))
                      (pointer-stuff rest) (cdr pointers-and-more)
                      (let ((word&frame-list nil)
@@ -608,4 +607,7 @@
                                          (:adjective *adjective-word-sense-description-tail*)
                                          (:adjectivesatellite *adjectivesatellite-word-sense-description-tail*)
                                          (:adverb *adverb-word-sense-description-tail*))))))))))))))))
+(eval-when (:load-toplevel)
+(wn2rdf:main)
+)
 
