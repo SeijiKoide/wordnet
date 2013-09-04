@@ -46,7 +46,8 @@
                               (let ((c (char str pos)))
                                 (concatenate 'cl:string
                                   (subseq str 0 pos)
-                                  (format nil "%~X" (char-code c))
+                                  #-:allegro (format nil "%~X" (char-code c))
+                                  #+:allegro (string-upcase (format nil "%~X" (char-code c)))
                                   (escape (subseq str (1+ pos))))))
                              (t str)))))
       (escape str))))
